@@ -16,7 +16,7 @@ class TestNFApi(unittest.TestCase):
         self.all_id = list(chain.from_iterable([x.all_idents for x in all_devs]))
         
         #Create single IP object
-        IP = IPNetwork(u'8.8.8.8')
+        IP = IPNetwork('8.8.8.8')
         
         #Create IPGroup object
         IPG = IPGroup(
@@ -64,18 +64,18 @@ class TestNFApi(unittest.TestCase):
         
         #Test app_ip_group call. Function returns JSON, test that the 'message' key matches success
         resp = self.session.add_ip_group(self.ipg)
-        print('test_add_single_ip: {0}'.format(resp))
+        print(('test_add_single_ip: {0}'.format(resp)))
         self.assertEqual(resp['message'], 'IPGroup added successfully')
 
     def test02_modify_ip_group(self):
         
         #Add second host
-        new_ip = IPNetwork(u'8.8.4.4')
+        new_ip = IPNetwork('8.8.4.4')
         self.ipg.add_ip(new_ip)
 
         #API call with modified object
         resp = self.session.modify_ip_group(self.ipg)
-        print('test_modify_ip_group: {0}'.format(resp))
+        print(('test_modify_ip_group: {0}'.format(resp)))
         self.assertIn('modified successfully', resp['message'])
 
         #Modify speed
@@ -83,14 +83,14 @@ class TestNFApi(unittest.TestCase):
 
         #API call with modified objects
         resp = self.session.modify_ip_group(self.ipg)
-        print('test_modify_ip_group: {0}'.format(resp))
+        print(('test_modify_ip_group: {0}'.format(resp)))
         self.assertIn('modified successfully', resp['message'])
     
     def test03_add_bill_plan(self):
         
         #Test add_bill_plan call
         resp = self.session.add_bill_plan(self.bp)
-        print('test_add_plan: {0}'.format(resp))
+        print(('test_add_plan: {0}'.format(resp)))
 
     def test04_modify_bill_plan(self):
 
@@ -105,12 +105,12 @@ class TestNFApi(unittest.TestCase):
         #Add all known IP groups to bill plan
         mod_bp.ipg_id = ','.join([str(i.ID) for i in self.session.get_ip_groups()])
         resp = self.session.modify_bill_plan(mod_bp)
-        print('modify_bill_plan: {0}'.format(resp))
+        print(('modify_bill_plan: {0}'.format(resp)))
         self.assertIn('Updated SuccessFully', resp['message']) #Yep, another typo in their code
 
     def test05_delete_ip_group(self):
         resp = self.session.delete_ip_group(self.ipg)
-        print('test_delete_ip_group: {0}'.format(resp))
+        print(('test_delete_ip_group: {0}'.format(resp)))
         self.assertIn('Deleted Successfully', resp)
     
     def test06_delete_bill_plan(self):
@@ -123,7 +123,7 @@ class TestNFApi(unittest.TestCase):
         
         #Delete unit test plan
         resp = self.session.delete_bill_plan(test_bp)
-        print('test_delete_bill_plan: {0}'.format(resp))
+        print(('test_delete_bill_plan: {0}'.format(resp)))
         self.assertEquals('Success', resp['message'])
 
 if __name__ == '__main__':
